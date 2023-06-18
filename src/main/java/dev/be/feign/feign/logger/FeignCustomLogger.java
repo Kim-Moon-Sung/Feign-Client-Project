@@ -21,7 +21,7 @@ public class FeignCustomLogger extends Logger {
 
     @Override
     protected void logRequest(String configKey, Level logLevel, Request request) {
-        System.out.println(request);
+        System.out.println("[logRequest] : " + request);
     }
 
     @Override
