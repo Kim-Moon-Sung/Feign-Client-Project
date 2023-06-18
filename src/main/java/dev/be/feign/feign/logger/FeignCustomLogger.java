@@ -13,6 +13,9 @@ import static feign.Util.*;
 @RequiredArgsConstructor
 public class FeignCustomLogger extends Logger {
 
+    private static final int DEFAULT_SLOW_API_TIME = 3_000;
+    private static final String SLOW_API_NOTICE = "Slow API";
+
     @Override
     protected void log(String configKey, String format, Object... args) {
         // log 를 어떤 형식으로 남길지 정해준다.
@@ -53,6 +56,11 @@ public class FeignCustomLogger extends Logger {
                 if (logLevel.ordinal() >= Level.FULL.ordinal() && bodyLength > 0) {
                     log(configKey, "%s", decodeOrDefault(bodyData, UTF_8, "Binary data"));
                 }
+
+                if(elapsedTime > DEFAULT_SLOW_API_TIME) {
+                    log(configKey, "[%s] elapsedTime : %s", SLOW_API_NOTICE, elapsedTime);
+                }
+
                 log(configKey, "<--- END HTTP (%s-byte body)", bodyLength);
                 return response.toBuilder().body(bodyData).build();
             } else {
