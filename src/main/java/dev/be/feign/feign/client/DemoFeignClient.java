@@ -22,4 +22,7 @@ public interface DemoFeignClient { // Feign 의 경우 선언형이기 때문에
     @PostMapping("/post")
     ResponseEntity<BaseResponseInfo> callPost(@RequestHeader("CustomHeaderName") String customHeader,
                                               @RequestBody BaseRequestInfo baseRequestInfo);
+
+    @GetMapping("/error")
+    ResponseEntity<BaseResponseInfo> callErrorDecoder();
 }
